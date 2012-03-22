@@ -1,0 +1,26 @@
+g++ -o ../bin/SMTBackend.o -c SMTBackend.cc -W -Wall -Wno-unused `llvm-config --cxxflags jit bitreader bitwriter native`
+SMTBackend.cc: In member function 'void SMTBackend::visitCallSite(llvm::CallSite)':
+SMTBackend.cc:548: error: no match for 'operator<<' in 'oss << * CS.llvm::CallSite::getCalledFunction()'
+/usr/include/c++/4.3/ostream:112: note: candidates are: std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(std::basic_ostream<_CharT, _Traits>& (*)(std::basic_ostream<_CharT, _Traits>&)) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/ostream:121: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(std::basic_ios<_CharT, _Traits>& (*)(std::basic_ios<_CharT, _Traits>&)) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/ostream:131: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(std::ios_base& (*)(std::ios_base&)) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/ostream:169: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(long int) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/ostream:173: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(long unsigned int) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/ostream:177: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(bool) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/bits/ostream.tcc:97: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(short int) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/ostream:184: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(short unsigned int) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/bits/ostream.tcc:111: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(int) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/ostream:195: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(unsigned int) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/ostream:204: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(long long int) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/ostream:208: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(long long unsigned int) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/ostream:213: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(double) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/ostream:217: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(float) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/ostream:225: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(long double) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/ostream:229: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(const void*) [with _CharT = char, _Traits = std::char_traits<char>]
+/usr/include/c++/4.3/bits/ostream.tcc:125: note:                 std::basic_ostream<_CharT, _Traits>& std::basic_ostream<_CharT, _Traits>::operator<<(std::basic_streambuf<_CharT, _Traits>*) [with _CharT = char, _Traits = std::char_traits<char>]
+/local/monniaux/packages/llvm-2.7/include/llvm/Module.h:552: note:                 llvm::raw_ostream& llvm::operator<<(llvm::raw_ostream&, const llvm::Module&)
+/local/monniaux/packages/llvm-2.7/include/llvm/ADT/Twine.h:448: note:                 llvm::raw_ostream& llvm::operator<<(llvm::raw_ostream&, const llvm::Twine&)
+/local/monniaux/packages/llvm-2.7/include/llvm/Type.h:555: note:                 llvm::raw_ostream& llvm::operator<<(llvm::raw_ostream&, const llvm::Type&)
+/local/monniaux/packages/llvm-2.7/include/llvm/ADT/APInt.h:1456: note:                 llvm::raw_ostream& llvm::operator<<(llvm::raw_ostream&, const llvm::APInt&)
+/local/monniaux/packages/llvm-2.7/include/llvm/Value.h:312: note:                 llvm::raw_ostream& llvm::operator<<(llvm::raw_ostream&, const llvm::Value&)
+make: *** [../bin/SMTBackend.o] Error 1

@@ -1,0 +1,7 @@
+llvm2smt by Julien Henry, VERIMAG
+
+1) You need LLVM-2.7 to compile this system.
+2) cd src ; make
+3) in ex, run check.sh file.c
+unsat = property proved
+sat = property disproved

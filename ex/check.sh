@@ -1,0 +1,4 @@
+clang -emit-llvm -c $1 -o unoptimized.o
+opt -O3 -o optimized.o unoptimized.o
+../src/llvm2smt optimized.o
+../z3/bin/z3 -m out.smt 

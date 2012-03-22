@@ -1,0 +1,159 @@
+/********************************************************************
+ * Copyright (C) 2008 by Verimag                                    *
+ * Initial author: Matthieu Moy                                     *
+ * This file must not be distributed outside Verimag                *
+ ********************************************************************/
+
+#include "systemc.h"
+#include <iostream>
+
+// We check for process termination, so assertion failure can be
+// modeled with an infinite loop.
+#define ASSERT(c) if(c) {int x; while(true) {x = x;};}
+
+using namespace std;
+
+SC_MODULE(module) {
+        void compute() {
+                volatile bool tmp = false;
+                volatile bool b1 = false;
+                volatile bool b2 = false;
+                volatile bool b3 = false;
+                volatile bool b4 = false;
+                volatile bool b5 = false;
+                volatile bool b6 = false;
+                volatile bool b7 = false;
+                volatile bool b8 = false;
+
+                volatile bool i1 = false, i2 = false, i3 = false; // intermediate results
+
+                volatile bool nd1, nd2, nd3, nd4, nd5, nd6, nd7, nd8, nd9; // non-deterministic values.
+
+#define SHL             b1 = b2; b2 = b3; b3 = b4; b4 = b5; b5 = b6; b6 = b7; b7 = b8; b8 = false
+#define SHR             b8 = b7; b7 = b6; b6 = b5; b5 = b4; b4 = b3; b3 = b2; b2 = b1; b1 = false;
+
+#define ROL   tmp = b1; b1 = b2; b2 = b3; b3 = b4; b4 = b5; b5 = b6; b6 = b7; b7 = b8; b8 = tmp;
+#define ROR   tmp = b8; b8 = b7; b7 = b6; b6 = b5; b5 = b4; b4 = b3; b3 = b2; b2 = b1; b1 = tmp;
+                
+#ifndef SCP_IN_PARSER
+                // SCP_IN_PARSER is defined only within Pinapa. This
+                // portion is just for debugging and won't be used for
+                // the proof.
+                nd1 = true;
+                nd2 = true;
+                nd3 = true;
+                nd4 = true;
+                nd5 = true;
+                nd6 = true;
+                nd7 = true;
+#define PRINT(s) printf("%s: \t%d%d%d%d%d%d%d%d %d%d%d\n", #s,    \
+                        b1, b2, b3, b4, b5, b6, b7, b8,         \
+                        i1, i2, i3)
+#else
+#define PRINT(s) (void)NULL
+#endif
+
+                if      ( nd7 &&  nd8 &&  nd9)
+                        { /*    nothing. That's the only case where
+                                nd1..nd6 are all true. Uncomment the
+                                line below to make the property true. */
+                                //nd1 = false;
+                        }
+                else if (!nd7 &&  nd8 &&  nd9)
+                        nd1 = false;
+                else if ( nd7 && !nd8 &&  nd9)
+                        nd2 = false;
+                else if (!nd7 && !nd8 &&  nd9)
+                        nd3 = false;
+                else if ( nd7 &&  nd8 && !nd9)
+                        nd4 = false;
+                else if (!nd7 &&  nd8 && !nd9)
+                        nd5 = false;
+                else 
+                        nd6 = false;
+
+                /* If nd1 = false is uncommented above, then at this
+                 * point, one of nd1, nd2, nd3, nd4, nd5 or nd6 is
+                 * false. IOW, an invariant at this point is
+                 * !nd1 || !nd2 || !nd3 || !nd4 || !nd5 || !nd6
+                 * if nd1 = false is commented out, then this
+                 * invariant doesn't hold.
+                 */
+                b1 = false;
+                b2 = false;
+                b3 = false;
+                b4 = false;
+                b5 = false;
+                b6 = false;
+                b7 = false;
+                b8 = nd1;
+
+                PRINT(init);
+
+                SHL; SHL; SHL; SHL; SHL; SHL; SHL;
+                // nd1 has moved to b1.
+
+                SHR;
+                // nd1 is back on b2.
+
+                if (nd2) {
+                        SHR; SHR; SHR;
+                }
+
+                i1 = !b2;
+
+                PRINT(i1);
+
+                // nd1 might have moved back to b5.
+                
+                if (nd3) {
+                        ROR; ROR; ROR; ROR;
+                }
+                // nd1 might have rotated back to b1
+
+                i2 = !b5;
+
+                PRINT(i2);
+
+                if (nd4) {
+                        b2 = b1 || b2; // it's possible that b1 == b2
+                                       // == true
+                }
+                
+                if (nd5) {
+                        b3 = b1 && b2; // b3 can be true
+                }
+
+                SHR; SHR; // b5 can be true.
+                
+                PRINT(b5);
+
+                if (b5) {
+                        b6 = true;
+                }
+                
+                if (b5 && b6) {
+                        b7 = nd6;
+                }
+
+                ROR;
+                
+                i3 = b8;
+
+                PRINT(i3);
+                
+                ASSERT((!i1) || (!i2) || (!i3));
+        }
+        
+        SC_HAS_PROCESS(module);
+        module(sc_module_name name) {
+                SC_THREAD(compute);
+        }
+};
+
+
+int sc_main (int argc, char ** argv) {
+        new module("module");
+        sc_start();
+        return 0;
+}

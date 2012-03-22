@@ -1,0 +1,16 @@
+on a un fichier <fichier>.c
+
+on le compile avec
+llvm-gcc -c -emit-llvm <fichier>.c
+
+ca nous donne un fichier .o
+
+on fait une phase d'optimisation
+opt -f -mem2reg -o  <fichier>_opt.o <fichier>.o
+
+On fait ensuite un
+llvm-dis <fichier>_opt.o
+
+Cela genere un fichier <fichier>_opt.o.ll
+
+Ce fichier est lisible
