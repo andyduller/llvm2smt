@@ -8,7 +8,7 @@
 #include "llvm/Instructions.h"
 #include "llvm/Pass.h"
 #include "llvm/PassManager.h"
-#include "llvm/TypeSymbolTable.h"
+//#include "llvm/TypeSymbolTable.h"
 #include "llvm/Intrinsics.h"
 #include "llvm/IntrinsicInst.h"
 #include "llvm/InlineAsm.h"
@@ -21,9 +21,9 @@
 #include "llvm/CodeGen/Passes.h"
 #include "llvm/CodeGen/IntrinsicLowering.h"
 #include "llvm/Transforms/Scalar.h"
-#include "llvm/Target/TargetAsmInfo.h"
+//#include "llvm/Target/TargetAsmInfo.h"
 #include "llvm/Target/TargetData.h"
-#include "llvm/Target/TargetRegistry.h"
+//#include "llvm/Target/TargetRegistry.h"
 #include "llvm/Support/CallSite.h"
 #include "llvm/Support/CFG.h"
 #include "llvm/Support/ErrorHandling.h"
@@ -32,7 +32,7 @@
 #include "llvm/Support/InstVisitor.h"
 //#include "llvm/Support/Mangler.h"
 #include "llvm/Support/MathExtras.h"
-#include "llvm/System/Host.h"
+//#include "llvm/System/Host.h"
 #include "llvm/Config/config.h"
 
 #include "SMTBackend_decl.h"
@@ -148,7 +148,7 @@ string SMTBackend_decl::GetUserName(const User * Value) {
 
 string SMTBackend_decl::GetValueName(const Value * Operand) {
 	
-	string Name = Operand->getNameStr();
+        string Name = Operand->getName().str();
 
 	if (const User * Const = dyn_cast < User > (Operand)) {
 		return GetUserName(Const);
@@ -457,11 +457,11 @@ void SMTBackend_decl::visitCallSite(CallSite CS){
 	Out << ":extrafuns ((" << (*locals_name)[I] << " Int))\n";
 }
 
-void SMTBackend_decl::visitUnwindInst(UnwindInst &I){
-#ifdef COMMENT
-	Out << ";; NOT IMPLEMENTED : visitUnwindInst\n;; " << I << "\n";
-#endif
-}
+//void SMTBackend_decl::visitUnwindInst(UnwindInst &I){
+//#ifdef COMMENT
+//	Out << ";; NOT IMPLEMENTED : visitUnwindInst\n;; " << I << "\n";
+//#endif
+//}
 
 void SMTBackend_decl::visitUnreachableInst(UnreachableInst &I){
 #ifdef COMMENT

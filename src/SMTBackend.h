@@ -10,7 +10,7 @@
 #include "llvm/Instructions.h"
 #include "llvm/Pass.h"
 #include "llvm/PassManager.h"
-#include "llvm/TypeSymbolTable.h"
+//#include "llvm/TypeSymbolTable.h"
 #include "llvm/Intrinsics.h"
 #include "llvm/IntrinsicInst.h"
 #include "llvm/InlineAsm.h"
@@ -23,9 +23,9 @@
 #include "llvm/CodeGen/Passes.h"
 #include "llvm/CodeGen/IntrinsicLowering.h"
 #include "llvm/Transforms/Scalar.h"
-#include "llvm/Target/TargetAsmInfo.h"
+//#include "llvm/Target/TargetAsmInfo.h"
 #include "llvm/Target/TargetData.h"
-#include "llvm/Target/TargetRegistry.h"
+//#include "llvm/Target/TargetRegistry.h"
 #include "llvm/Support/CallSite.h"
 #include "llvm/Support/CFG.h"
 #include "llvm/Support/ErrorHandling.h"
@@ -34,7 +34,7 @@
 #include "llvm/Support/InstVisitor.h"
 //#include "llvm/Support/Mangler.h"
 #include "llvm/Support/MathExtras.h"
-#include "llvm/System/Host.h"
+//#include "llvm/System/Host.h"
 #include "llvm/Config/config.h"
 
 using namespace llvm;
@@ -53,7 +53,7 @@ public:
 	static char ID;
 	
 	/* constructor */
-	SMTBackend (formatted_raw_ostream &o) : ModulePass(&ID), Out(o) {
+	SMTBackend (formatted_raw_ostream &o) : ModulePass(ID), Out(o) {
 		/* NOT IMPLEMENTED */
 	}
 
@@ -104,7 +104,7 @@ public:
 	void visitCallSite(CallSite CS);
 	void visitCallInst(CallInst &I) { visitCallSite (CallSite (&I)); }
 	void visitInvokeInst(InvokeInst &I) { visitCallSite (CallSite (&I)); }
-	void visitUnwindInst(UnwindInst &I);
+//	void visitUnwindInst(UnwindInst &I);
 	void visitUnreachableInst(UnreachableInst &I);
  
 	void visitShl(BinaryOperator &I);

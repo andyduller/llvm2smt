@@ -6,9 +6,11 @@ CPPFLAGS	= -W -Wall -Wno-unused
 LDFLAGS		=
 EXEC		= llvm2smt
 
-CPPFLAGS += $(shell llvm-config --cxxflags jit bitreader bitwriter native)
+CPPFLAGS += $(shell llvm-config --cxxflags)
 
-LDFLAGS  += $(shell llvm-config --ldflags --libs jit bitreader bitwriter native)
+#LDFLAGS  += $(shell llvm-config --ldflags --libs jit bitreader bitwriter native)
+LDFLAGS  += $(shell llvm-config --ldflags --libs)
+LDFLAGS  += -ldl
 
 all: $(EXEC)
 
@@ -25,4 +27,3 @@ clean:
 
 realclean: clean
 	rm -rf $(EXEC)
-

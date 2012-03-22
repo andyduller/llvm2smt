@@ -1,16 +1,16 @@
 #include "llvm/Support/raw_ostream.h"
 #include "llvm/LLVMContext.h"
 #include "llvm/Module.h"
-#include "llvm/ModuleProvider.h"
+//#include "llvm/ModuleProvider.h"
 #include "llvm/PassManager.h"
 #include "llvm/Pass.h"
 #include "llvm/ADT/Triple.h"
 #include "llvm/Analysis/Verifier.h"
 #include "llvm/Bitcode/ReaderWriter.h"
-#include "llvm/CodeGen/FileWriters.h"
+//#include "llvm/CodeGen/FileWriters.h"
 #include "llvm/CodeGen/LinkAllAsmWriterComponents.h"
 #include "llvm/CodeGen/LinkAllCodegenComponents.h"
-#include "llvm/CodeGen/ObjectCodeEmitter.h"
+//#include "llvm/CodeGen/ObjectCodeEmitter.h"
 #include "llvm/Config/config.h"
 #include "llvm/LinkAllVMCore.h"
 #include "llvm/Support/CommandLine.h"
@@ -20,13 +20,13 @@
 #include "llvm/Support/MemoryBuffer.h"
 #include "llvm/Support/PluginLoader.h"
 #include "llvm/Support/PrettyStackTrace.h"
-#include "llvm/System/Host.h"
-#include "llvm/System/Signals.h"
-#include "llvm/Target/SubtargetFeature.h"
+//#include "llvm/System/Host.h"
+//#include "llvm/System/Signals.h"
+//#include "llvm/Target/SubtargetFeature.h"
 #include "llvm/Target/TargetData.h"
 #include "llvm/Target/TargetMachine.h"
-#include "llvm/Target/TargetRegistry.h"
-#include "llvm/Target/TargetSelect.h"
+//#include "llvm/Target/TargetRegistry.h"
+//#include "llvm/Target/TargetSelect.h"
 #include "llvm/Transforms/Scalar.h"
 
 #include "SMTBackend.h"
@@ -41,11 +41,10 @@ void execute::exec(std::string InputFilename, std::string OutputFilename) {
    LLVMContext & Context = getGlobalContext();
 
    std::string ErrorMessage;
+   OwningPtr<MemoryBuffer> Buffer;
 
-   if (MemoryBuffer * Buffer
-       = MemoryBuffer::getFileOrSTDIN(InputFilename, &ErrorMessage)) {
-       M = ParseBitcodeFile(Buffer, Context, &ErrorMessage);
-       delete Buffer;
+   if (MemoryBuffer::getFileOrSTDIN(InputFilename, Buffer)) {
+     M = ParseBitcodeFile(Buffer.get(), Context, &ErrorMessage);
    } else {
 	   std::cout << "Not able to initialize module from bitcode\n";
 	   // ERROR("Not able to initialize module from bitcode\n");
